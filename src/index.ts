@@ -4,7 +4,7 @@ import { TaxCalculatorFactory } from './taxCalculatorFactory';
 
 const app = express();
 
-app.get('/api/v2/product/price/:countryId', (req, res) => {
+app.get('/api/product/price/:countryId', (req, res) => {
     const product = new Product('iPhone', 1000);
     try {
         const taxCalculator = TaxCalculatorFactory.create(req.params.countryId);
@@ -16,7 +16,6 @@ app.get('/api/v2/product/price/:countryId', (req, res) => {
             "error": "There was a problem calculating your tax.."
         });
     }
-
 });
 
 app.listen(3000, () => {
