@@ -4,16 +4,19 @@ import { TaxCalculatorFactory } from './taxCalculatorFactory';
 
 const app = express();
 
-app.get('/api/product/price/:countryId', (req, res) => {
+app.get('/api/product/price/:countryCode', (req, res) => {
+    const countryCode = req.params.countryCode;
     const product = new Product('iPhone', 1000);
     try {
-        const taxCalculator = TaxCalculatorFactory.create(req.params.countryId);
+        const taxCalculator = TaxCalculatorFactory.create(countryCode);
         res.send({
-            "price": taxCalculator.getPriceIncludingTax(product)
+            'name': product.getName(),
+            'price': taxCalculator.getPriceIncludingTax(product),
+            'taxRate': taxCalculator.getTaxRate()
         });
     } catch (error) {
         res.status(500).send({
-            "error": "There was a problem calculating your tax.."
+            'error': 'The country code provided is not valid'
         });
     }
 });
